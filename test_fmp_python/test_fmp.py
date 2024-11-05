@@ -70,3 +70,12 @@ class TestFMP(unittest.TestCase):
             mock_request.get(BASE_URL+"/historical-price-full/JMCRX?apikey=demo", text=f.read())
             quote = fmp.get_historical_price('JMCRX')
             self.assertIsInstance(quote,list)
+    
+    @requests_mock.Mocker()
+    def test_get_earning_calendar(self, mock_request):
+        fmp = FMP()
+        file_path = self.get_file_from_name('mock_earning_calendar')
+        with open(file_path) as f:
+            mock_request.get(BASE_URL + "/earning_calendar?from=2024-11-05&to=2024-11-06&apikey=demo", text=f.read())
+            earnings = fmp.get_earning_calendar('2024-11-05', '2024-11-06')
+            self.assertIsInstance(earnings, list)

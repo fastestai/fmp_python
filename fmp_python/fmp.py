@@ -83,5 +83,14 @@ class FMP(object):
         hp = self.__do_request__(rb.compile_request())
         return hp
 
+    @FMPDecorator.write_to_file
+    @FMPDecorator.format_data
+    def get_earning_calendar(self, _from, _to):
+        rb = RequestBuilder(self.api_key)
+        rb.set_category('earning_calendar')
+        rb.set_query_params({'from': _from, 'to': _to})
+        earnings = self.__do_request__(rb.compile_request())
+        return earnings
+        
     def __do_request__(self, url):
         return requests.get(url)
